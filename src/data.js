@@ -1,0 +1,38 @@
+export const data = {
+  id: "8_rating",
+  row: {
+    id: "8",
+    index: 8,
+    original: {
+      id: 9,
+      movie: "Forrest Gump",
+      rating: 8.8,
+      image: "images/forrest_gump.jpg",
+      imdb_url: "https://www.imdb.com/title/tt0109830/",
+    },
+    depth: 0,
+    _valuesCache: {},
+    _uniqueValuesCache: {},
+    subRows: [],
+    columnFilters: {},
+    columnFiltersMeta: {},
+    _groupingValuesCache: {},
+  },
+  column: {
+    id: "rating",
+    depth: 0,
+    columnDef: {
+      header: "Rating",
+      filterFn: "auto",
+      sortingFn: "auto",
+      sortUndefined: 1,
+      aggregationFn: "auto",
+      size: 150,
+      minSize: 20,
+      maxSize: 9007199254740991,
+      accessorKey: "rating",
+      className: "text-4xl",
+    },
+    columns: [],
+  },
+};
