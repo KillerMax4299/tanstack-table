@@ -19,42 +19,46 @@ function App() {
   const { data: movieList } = useQuery({
     queryKey: ["movieList"],
     queryFn: async () => {
-      const { data } = await axios.get("https://dummyapi.online/api/movies");
-      return data;
+      const { data } = await axios.get(
+        "http://103.87.172.95:8094/api/mastertable/DepartmentList"
+      );
+      return data.result;
     },
   });
 
-  const ListOptions = [10, 20, 30, 40, "all"];
+  const ListOptions = [5, 10, 15,"all"];
   const [items, setItems] = useState(ListOptions[0]);
 
   const data = useMemo(() => movieList ?? [], [movieList]);
   const list = [
     {
-      header: "Id",
-      accessorKey: "id",
-      className: "font-bold text-black text-center",
-      headClass: "cursor-pointer",
+      header: "Sl no",
+      accessorKey: "departmentNo",
+      className: "font-bold text-black text-center cursor-pointer",
+      cell: ({ row }) => row.index + 1,
+      // sortingFn: "id",
+      
     },
     {
-      header: "Movie",
-      accessorKey: "movie",
-      headClass: "cursor-pointer",
+      header: "Name",
+      accessorKey: "departmentName",
+      headClass: "cursor-pointer min-w-[480px]",
     },
     {
-      header: "Rating",
-      accessorKey: "rating",
+      header: "Short Name",
+      accessorKey: "deptshort",
       headClass: "cursor-pointer",
     },
-    {
-      header: "IMDB",
-      accessorKey: "imdb_url",
-      headClass: "cursor-pointer",
-      cell: (info) => (
-        <a href={info.getValue()} target="_blank">
-          Link
-        </a>
-      ), // Render email as a mailto link
-    },
+    // {
+    //   header: "IMDB",
+    //   accessorKey: "imdb_url",
+    //   headClass: "cursor-pointer",
+    //   cell: (info) => (
+    //     <a href={info.getValue()} target="_blank">
+    //       Link
+    //     </a>
+    //   ), // Render email as a mailto link
+    // },
   ];
 
   const [sorting, setSorting] = useState([]);
@@ -78,6 +82,7 @@ function App() {
     },
     onSortingChange: setSorting,
     onGlobalFilterChange: setFiltering,
+    
   });
 
   useEffect(() => {
@@ -107,7 +112,7 @@ function App() {
           ))}
         </select>
       </div>
-      <Table className="mt-4">
+      <Table className="mt-4 drop-shadow-none">
         {table.getHeaderGroups().map((headerGroup) => (
           <Table.Head key={headerGroup.id}>
             {headerGroup.headers.map((header) => (
