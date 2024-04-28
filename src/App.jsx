@@ -17,24 +17,46 @@ import {
 } from "@tanstack/react-table";
 
 function App() {
-  const { data: movieList } = useQuery({
-    queryKey: ["movieList"],
+  const { data: designationList } = useQuery({
+    queryKey: ["designationList"],
     queryFn: async () => {
       const { data } = await axios.get(
-        "http://103.87.172.95:8094/api/actionplan/getActionList/1"
+        "http://103.87.172.95:8094/api/mastertable/DesignationList"
       );
       return data.result;
+    },
+  });
+
+  const { data: departmentList } = useQuery({
+    queryKey: ["departmentList"],
+    queryFn: async () => {
+      const { data } = await axios.get(
+        "http://103.87.172.95:8094/api/mastertable/DepartmentList"
+      );
+      return data.result;
+    },
+  });
+
+  //http://103.87.172.95:8094/api/user/getUserList?created_by=1
+
+  const { data: userList } = useQuery({
+    queryKey: ["userList"],
+    queryFn: async () => {
+      const { data } = await axios.get(
+        "http://103.87.172.95:8094/api/user/getUserList?created_by=1"
+      );
+      return data.result.data;
     },
   });
 
   const ListOptions = [5, 10, 15, "all"];
   const [items, setItems] = useState(ListOptions[0]);
 
-  const data = useMemo(() => movieList ?? [], [movieList]);
+  const data = useMemo(() => userList ?? [], [userList]);
   const list = [
     {
       header: "Sl no",
-      accessorKey: "actionSL",
+      accessorKey: "userIndex",
       className: "font-bold text-black text-center cursor-pointer",
       cell: ({ row }) => row.index + 1,
       // sortingFn: "id",
@@ -123,7 +145,7 @@ function App() {
           XLSX
         </button>
       </div>
-      <div className="overflow-x-auto overflow-y-hidden h-fit w-1/5">
+      <div className="overflow-x-auto overflow-y-hidden h-fit w-48">
         <Table className="mt-4 drop-shadow-none">
           {table.getHeaderGroups().map((headerGroup) => (
             <Table.Head key={headerGroup.id}>
