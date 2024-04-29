@@ -6,7 +6,9 @@ import { Pagination } from "./Pagination";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import classNames from "classnames";
-import { exportToExcel } from "./exportExcel";
+import { exportToExcel, exportToCSV } from "./exportExcel";
+import { mkConfig, generateCsv, download } from "export-to-csv";
+
 import {
   flexRender,
   getCoreRowModel,
@@ -62,24 +64,30 @@ function App() {
       // sortingFn: "id",
     },
     {
-      header: "Scheme Area",
-      accessorKey: "schemeArea",
+      header: "Category",
+      accessorKey: "category",
       headClass: "cursor-pointer",
-      cell: ({ row }) => (row.original.schemeArea == "R" ? "Rural" : "Urban"),
+      // cell: ({ row }) => (row.original.schemeArea == "R" ? "Rural" : "Urban"),
     },
     {
-      header: "Financial Year",
-      accessorKey: "finYear",
+      header: "Department",
+      accessorKey: "deptName",
       headClass: "cursor-pointer",
-      cell: ({ row }) => row.original.finYear
+      cell: ({
+        row: {
+          original: { deptName },
+        },
+      }) => (deptName == "Unknown" ? "Karmashree Admin" : deptName),
+    },
+    {
+      header: "Designation",
+      accessorKey: "designationName",
+      headClass: "cursor-pointer",
     },
   ];
 
   const [sorting, setSorting] = useState([]);
   const [filtering, setFiltering] = useState("");
-
-  
-
 
   const table = useReactTable({
     data,
@@ -107,14 +115,19 @@ function App() {
   }, [items]);
 
   function rowToArray() {
-    let array = []
+    let array = [];
     table.getCoreRowModel().rows.forEach((row) => {
       const cells = row.getVisibleCells();
-      const values = cells.map((cell) => console.log(cell.row.getVisibleCells()));
+      const values = cells.map((cell) =>
+        cell.getValue()
+      );
       array.push(values);
     });
     return array;
   }
+
+
+  
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -139,14 +152,21 @@ function App() {
         </select>
         <button
           className="border px-4 bg-green-600/90 text-white rounded"
-          // onClick={()=>exportToExcel(rowToArray())}
-          onClick={rowToArray}
+          onClick={() => exportToExcel(rowToArray())}
+          // onClick={rowToArray}
         >
           XLSX
         </button>
+        <button
+          className="border px-4 text-black rounded border-black"
+          onClick={()=>exportToCSV(table)}
+          // onClick={()=>exportExcel(table.getFilteredRowModel().rows)}
+        >
+          CSV
+        </button>
       </div>
-      <div className="overflow-x-auto overflow-y-hidden h-fit w-48">
-        <Table className="mt-4 drop-shadow-none">
+      <div className="overflow-x-auto overflow-y-hidden h-fit w-fit">
+        <Table className="mt-4 drop-shadow-none" id="hello">
           {table.getHeaderGroups().map((headerGroup) => (
             <Table.Head key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
