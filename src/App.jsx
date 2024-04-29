@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import "./App.css";
 import { Table } from "flowbite-react";
@@ -7,7 +7,6 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import classNames from "classnames";
 import { exportToExcel, exportToCSV } from "./exportExcel";
-import { mkConfig, generateCsv, download } from "export-to-csv";
 
 import {
   flexRender,
@@ -19,25 +18,7 @@ import {
 } from "@tanstack/react-table";
 
 function App() {
-  const { data: designationList } = useQuery({
-    queryKey: ["designationList"],
-    queryFn: async () => {
-      const { data } = await axios.get(
-        "http://103.87.172.95:8094/api/mastertable/DesignationList"
-      );
-      return data.result;
-    },
-  });
-
-  const { data: departmentList } = useQuery({
-    queryKey: ["departmentList"],
-    queryFn: async () => {
-      const { data } = await axios.get(
-        "http://103.87.172.95:8094/api/mastertable/DepartmentList"
-      );
-      return data.result;
-    },
-  });
+  const tableRef = useRef(null)
 
   //http://103.87.172.95:8094/api/user/getUserList?created_by=1
 
@@ -116,13 +97,14 @@ function App() {
 
   function rowToArray() {
     let array = [];
-    table.getCoreRowModel().rows.forEach((row) => {
+    table.getFilteredRowModel().rows.forEach((row) => {
       const cells = row.getVisibleCells();
       const values = cells.map((cell) =>
         cell.getValue()
       );
       array.push(values);
     });
+    
     return array;
   }
 
@@ -152,7 +134,7 @@ function App() {
         </select>
         <button
           className="border px-4 bg-green-600/90 text-white rounded"
-          onClick={() => exportToExcel(rowToArray())}
+          onClick={() => exportToExcel(rowToArray(),table)}
           // onClick={rowToArray}
         >
           XLSX
@@ -166,7 +148,7 @@ function App() {
         </button>
       </div>
       <div className="overflow-x-auto overflow-y-hidden h-fit w-fit">
-        <Table className="mt-4 drop-shadow-none" id="hello">
+        <Table className="mt-4 drop-shadow-none" ref={tableRef} id="hello">
           {table.getHeaderGroups().map((headerGroup) => (
             <Table.Head key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
