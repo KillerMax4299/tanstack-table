@@ -18,7 +18,7 @@ import {
 } from "@tanstack/react-table";
 
 function App() {
-  const tableRef = useRef(null)
+  const tableRef = useRef(null);
 
   //http://103.87.172.95:8094/api/user/getUserList?created_by=1
 
@@ -99,17 +99,26 @@ function App() {
     let array = [];
     table.getFilteredRowModel().rows.forEach((row) => {
       const cells = row.getVisibleCells();
-      const values = cells.map((cell) =>
-        cell.getValue()
-      );
+      const values = cells.map((cell) => cell.getValue());
       array.push(values);
     });
-    
+
     return array;
   }
 
+  const [allData, setAllData] = useState([]);
 
-  
+  function updateVal(val, index) {
+    
+    const new_array = [...allData]
+    new_array[index] = val;
+    //   .map((e, idx) => {
+    //   if (idx === index) {
+    //     return val;
+    //   }
+    // });
+    setAllData(new_array);
+  }
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -134,14 +143,14 @@ function App() {
         </select>
         <button
           className="border px-4 bg-green-600/90 text-white rounded"
-          onClick={() => exportToExcel(rowToArray(),table)}
+          onClick={() => exportToExcel(rowToArray(), table)}
           // onClick={rowToArray}
         >
           XLSX
         </button>
         <button
           className="border px-4 text-black rounded border-black"
-          onClick={()=>exportToCSV(table)}
+          onClick={() => exportToCSV(table)}
           // onClick={()=>exportExcel(table.getFilteredRowModel().rows)}
         >
           CSV
@@ -199,6 +208,14 @@ function App() {
         </Table>
       </div>
       <Pagination data={data} table={table} />
+      <button onClick={() => setAllData((prev) => [...prev, ""])}>add</button>
+      <div>
+        <div className="flex flex-col space-y-2">
+          {allData.map((e, index) => (
+            <RadioButton index={index} value={e} updateVal={updateVal} />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
@@ -221,5 +238,39 @@ const SortIcon = ({ sort }) => {
         )}
       </div>
     </>
+  );
+};
+
+const RadioButton = ({index, value, updateVal}) => {
+
+  return (
+    <div className="flex flex-col">
+      <ul className="inline-flex items-center -space-x-[2px]">
+        <li>
+          <button
+            className={classNames(
+              "rounded-l-lg border px-3 py-2 leading-tight border-blue-500",
+              value ? "bg-blue-500 text-white" : "bg-white text-blue-500"
+            )}
+            value={true}
+            onClick={(e) => updateVal(Boolean(e.target.value),index)}
+          >
+            Yes
+          </button>
+        </li>
+        <li>
+          <button
+            className={classNames(
+              "rounded-r-lg border px-3 py-2 leading-tight border-blue-500  ",
+              !value ? "bg-blue-500 text-white" : "bg-white text-blue-500"
+            )}
+            value={false}
+            onClick={(e) => updateVal(Boolean(),index)}
+          >
+            No
+          </button>
+        </li>
+      </ul>
+    </div>
   );
 };
