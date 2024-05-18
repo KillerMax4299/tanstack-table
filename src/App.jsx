@@ -22,47 +22,41 @@ function App() {
 
   //http://103.87.172.95:8094/api/user/getUserList?created_by=1
 
-  const { data: userList } = useQuery({
-    queryKey: ["userList"],
+  const { data: designationList } = useQuery({
+    queryKey: ["designationList"],
     queryFn: async () => {
       const { data } = await axios.get(
-        "http://103.87.172.95:8094/api/user/getUserList?created_by=1"
+        "http://localhost:8094/api/mastertable/DesignationList"
       );
-      return data.result.data;
+      return data.result;
     },
   });
 
   const ListOptions = [5, 10, 15, "all"];
   const [items, setItems] = useState(ListOptions[0]);
 
-  const data = useMemo(() => userList ?? [], [userList]);
+  const data = useMemo(() => designationList ?? [], [designationList]);
   const list = [
     {
       header: "Sl no",
-      accessorKey: "userIndex",
+      accessorKey: "designationId",
       className: "font-bold text-black text-center cursor-pointer",
       cell: ({ row }) => row.index + 1,
       // sortingFn: "id",
     },
     {
-      header: "Category",
-      accessorKey: "category",
+      header: "Tier",
+      accessorKey: "designationLevel",
       headClass: "cursor-pointer",
-      // cell: ({ row }) => (row.original.schemeArea == "R" ? "Rural" : "Urban"),
-    },
-    {
-      header: "Department",
-      accessorKey: "deptName",
-      headClass: "cursor-pointer",
-      cell: ({
-        row: {
-          original: { deptName },
-        },
-      }) => (deptName == "Unknown" ? "Karmashree Admin" : deptName),
     },
     {
       header: "Designation",
-      accessorKey: "designationName",
+      accessorKey: "designation",
+      headClass: "cursor-pointer",
+    },
+    {
+      header: "User Type",
+      accessorKey: "userType",
       headClass: "cursor-pointer",
     },
   ];
@@ -109,14 +103,9 @@ function App() {
   const [allData, setAllData] = useState([]);
 
   function updateVal(val, index) {
-    
-    const new_array = [...allData]
+    const new_array = [...allData];
     new_array[index] = val;
-    //   .map((e, idx) => {
-    //   if (idx === index) {
-    //     return val;
-    //   }
-    // });
+
     setAllData(new_array);
   }
 
@@ -188,6 +177,8 @@ function App() {
                   )}
                 </Table.HeadCell>
               ))}
+              <Table.HeadCell>Status</Table.HeadCell>
+              <Table.HeadCell>Action</Table.HeadCell>
             </Table.Head>
           ))}
 
@@ -202,6 +193,8 @@ function App() {
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </Table.Cell>
                 ))}
+                <Table.Cell>Status</Table.Cell>
+                <Table.Cell>Action</Table.Cell>
               </Table.Row>
             ))}
           </Table.Body>
@@ -241,8 +234,7 @@ const SortIcon = ({ sort }) => {
   );
 };
 
-const RadioButton = ({index, value, updateVal}) => {
-
+const RadioButton = ({ index, value, updateVal }) => {
   return (
     <div className="flex flex-col">
       <ul className="inline-flex items-center -space-x-[2px]">
@@ -253,7 +245,7 @@ const RadioButton = ({index, value, updateVal}) => {
               value ? "bg-blue-500 text-white" : "bg-white text-blue-500"
             )}
             value={true}
-            onClick={(e) => updateVal(Boolean(e.target.value),index)}
+            onClick={(e) => updateVal(Boolean(e.target.value), index)}
           >
             Yes
           </button>
@@ -265,7 +257,7 @@ const RadioButton = ({index, value, updateVal}) => {
               !value ? "bg-blue-500 text-white" : "bg-white text-blue-500"
             )}
             value={false}
-            onClick={(e) => updateVal(Boolean(),index)}
+            onClick={(e) => updateVal(Boolean(), index)}
           >
             No
           </button>
