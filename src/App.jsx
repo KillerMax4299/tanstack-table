@@ -16,9 +16,11 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import SuccessModal from "./SuccessModal";
 
 function App() {
   const tableRef = useRef(null);
+  const [openModal, setOpenModal] = useState(false);
 
   //http://103.87.172.95:8094/api/user/getUserList?created_by=1
 
@@ -201,13 +203,19 @@ function App() {
         </Table>
       </div>
       <Pagination data={data} table={table} />
-      <button onClick={() => setAllData((prev) => [...prev, ""])}>add</button>
+      <button onClick={() => setOpenModal(true)}>add</button>
       <div>
-        <div className="flex flex-col space-y-2">
+        {/* <div className="flex flex-col space-y-2">
           {allData.map((e, index) => (
             <RadioButton index={index} value={e} updateVal={updateVal} />
           ))}
-        </div>
+        </div> */}
+        <SuccessModal
+          openModal={openModal}
+          setOpenModal={setOpenModal}
+          message={"Your order ABC123 has been placed successfully."}
+          isSuccess={true}
+        />
       </div>
     </div>
   );
