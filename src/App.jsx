@@ -44,8 +44,7 @@ function App() {
 
   const {
     data: Tdata,
-    variables,
-    mutateAsync,
+    mutate,
     isSuccess,
   } = useMutation({
     mutationFn: () => {
@@ -53,7 +52,6 @@ function App() {
     },
     onSuccess: (e) => {
       setOpenModal(true);
-      console.log(e);
     },
     mutationKey: ["addDepartment"],
   });
@@ -227,7 +225,7 @@ function App() {
         </Table>
       </div>
       <Pagination data={data} table={table} />
-      <button onClick={() => mutateAsync()}>add</button>
+      <button onClick={() => mutate()}>add</button>
       <div>
         {/* <div className="flex flex-col space-y-2">
           {allData.map((e, index) => (
@@ -237,7 +235,7 @@ function App() {
         <SuccessModal
           openModal={openModal}
           setOpenModal={setOpenModal}
-          message={`Your order ${Tdata.data} has been placed successfully.`}
+          message={`Your order ${Tdata?.data} has been placed successfully.`}
           isSuccess={isSuccess}
         />
       </div>
