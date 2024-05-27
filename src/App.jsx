@@ -4,7 +4,7 @@ import "./App.css";
 import { Table } from "flowbite-react";
 import { Pagination } from "./Pagination";
 import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import classNames from "classnames";
 import { exportToExcel, exportToCSV } from "./exportExcel";
 
@@ -32,6 +32,30 @@ function App() {
       );
       return data.result;
     },
+  });
+
+  const { data: getreq } = useQuery({
+    queryKey: ["getreq"],
+    queryFn: async () => {
+      const { data } = await axios.get("http://localhost:4000");
+      return data;
+    },
+  });
+
+  const {
+    data: Tdata,
+    variables,
+    mutateAsync,
+    isSuccess,
+  } = useMutation({
+    mutationFn: () => {
+      return axios.post("http://localhost:4000",{});
+    },
+    onSuccess: (e) => {
+      setOpenModal(true);
+      console.log(e);
+    },
+    mutationKey: ["addDepartment"],
   });
 
   const ListOptions = [5, 10, 15, "all"];
@@ -203,7 +227,7 @@ function App() {
         </Table>
       </div>
       <Pagination data={data} table={table} />
-      <button onClick={() => setOpenModal(true)}>add</button>
+      <button onClick={() => mutateAsync()}>add</button>
       <div>
         {/* <div className="flex flex-col space-y-2">
           {allData.map((e, index) => (
@@ -213,8 +237,8 @@ function App() {
         <SuccessModal
           openModal={openModal}
           setOpenModal={setOpenModal}
-          message={"Your order ABC123 has been placed successfully."}
-          isSuccess={true}
+          message={`Your order ${Tdata.data} has been placed successfully.`}
+          isSuccess={isSuccess}
         />
       </div>
     </div>
