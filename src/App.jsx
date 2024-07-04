@@ -134,112 +134,123 @@ function App() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      <div className="flex">
-        <input
-          type="text"
-          value={filtering}
-          className="border h-12"
-          onChange={(e) => setFiltering(e.target.value)}
-        />
-        <select
-          name=""
-          id=""
-          value={items}
-          onChange={(e) => setItems(e.target.value)}
-        >
-          {ListOptions.map((e) => (
-            <option key={e} value={e}>
-              {e}
-            </option>
-          ))}
-        </select>
-        <button
-          className="border px-4 bg-green-600/90 text-white rounded"
-          onClick={() => exportToExcel(rowToArray(), table)}
-          // onClick={rowToArray}
-        >
-          XLSX
-        </button>
-        <button
-          className="border px-4 text-black rounded border-black"
-          onClick={() => exportToCSV(table)}
-          // onClick={()=>exportExcel(table.getFilteredRowModel().rows)}
-        >
-          CSV
-        </button>
-      </div>
-      <div className="overflow-x-auto overflow-y-hidden h-fit w-fit">
-        <Table className="mt-4 drop-shadow-none" ref={tableRef} id="hello">
-          {table.getHeaderGroups().map((headerGroup) => (
-            <Table.Head key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <Table.HeadCell
-                  key={header.id}
-                  className={classNames(
-                    header.column.columnDef.headClass,
-                    "hover:bg-zinc-200/70 transition-all"
-                  )}
-                  onClick={header.column.getToggleSortingHandler()}
-                >
-                  {header.isPlaceholder ? null : (
-                    <div
-                      className={classNames(
-                        "flex items-center justify-between space-x-2",
-                        header.column.columnDef.header == "Movie" &&
-                          "min-w-[325px]"
-                      )}
-                    >
-                      <span>
-                        {flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                      </span>
-                      <SortIcon sort={header.column.getIsSorted()} />
-                    </div>
-                  )}
-                </Table.HeadCell>
-              ))}
-              <Table.HeadCell>Status</Table.HeadCell>
-              <Table.HeadCell>Action</Table.HeadCell>
-            </Table.Head>
-          ))}
+    // <div className="flex flex-col items-center justify-center">
+    //   <div className="flex">
+    //     <input
+    //       type="text"
+    //       value={filtering}
+    //       className="border h-12"
+    //       onChange={(e) => setFiltering(e.target.value)}
+    //     />
+    //     <select
+    //       name=""
+    //       id=""
+    //       value={items}
+    //       onChange={(e) => setItems(e.target.value)}
+    //     >
+    //       {ListOptions.map((e) => (
+    //         <option key={e} value={e}>
+    //           {e}
+    //         </option>
+    //       ))}
+    //     </select>
+    //     <button
+    //       className="border px-4 bg-green-600/90 text-white rounded"
+    //       onClick={() => exportToExcel(rowToArray(), table)}
+    //       // onClick={rowToArray}
+    //     >
+    //       XLSX
+    //     </button>
+    //     <button
+    //       className="border px-4 text-black rounded border-black"
+    //       onClick={() => exportToCSV(table)}
+    //       // onClick={()=>exportExcel(table.getFilteredRowModel().rows)}
+    //     >
+    //       CSV
+    //     </button>
+    //   </div>
+    //   <div className="overflow-x-auto overflow-y-hidden h-fit w-fit">
+    //     <Table className="mt-4 drop-shadow-none" ref={tableRef} id="hello">
+    //       {table.getHeaderGroups().map((headerGroup) => (
+    //         <Table.Head key={headerGroup.id}>
+    //           {headerGroup.headers.map((header) => (
+    //             <Table.HeadCell
+    //               key={header.id}
+    //               className={classNames(
+    //                 header.column.columnDef.headClass,
+    //                 "hover:bg-zinc-200/70 transition-all"
+    //               )}
+    //               onClick={header.column.getToggleSortingHandler()}
+    //             >
+    //               {header.isPlaceholder ? null : (
+    //                 <div
+    //                   className={classNames(
+    //                     "flex items-center justify-between space-x-2",
+    //                     header.column.columnDef.header == "Movie" &&
+    //                       "min-w-[325px]"
+    //                   )}
+    //                 >
+    //                   <span>
+    //                     {flexRender(
+    //                       header.column.columnDef.header,
+    //                       header.getContext()
+    //                     )}
+    //                   </span>
+    //                   <SortIcon sort={header.column.getIsSorted()} />
+    //                 </div>
+    //               )}
+    //             </Table.HeadCell>
+    //           ))}
+    //           <Table.HeadCell>Status</Table.HeadCell>
+    //           <Table.HeadCell>Action</Table.HeadCell>
+    //         </Table.Head>
+    //       ))}
 
-          <Table.Body>
-            {table.getRowModel().rows.map((row) => (
-              <Table.Row key={row.id}>
-                {row.getVisibleCells().map((cell) => (
-                  <Table.Cell
-                    key={cell.id}
-                    className={cell.column.columnDef.className}
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </Table.Cell>
-                ))}
-                <Table.Cell>Status</Table.Cell>
-                <Table.Cell>Action</Table.Cell>
-              </Table.Row>
-            ))}
-          </Table.Body>
-        </Table>
+    //       <Table.Body>
+    //         {table.getRowModel().rows.map((row) => (
+    //           <Table.Row key={row.id}>
+    //             {row.getVisibleCells().map((cell) => (
+    //               <Table.Cell
+    //                 key={cell.id}
+    //                 className={cell.column.columnDef.className}
+    //               >
+    //                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
+    //               </Table.Cell>
+    //             ))}
+    //             <Table.Cell>Status</Table.Cell>
+    //             <Table.Cell>Action</Table.Cell>
+    //           </Table.Row>
+    //         ))}
+    //       </Table.Body>
+    //     </Table>
+    //   </div>
+    //   <Pagination data={data} table={table} />
+    //   <button onClick={() => mutate()}>add</button>
+      <div className="m-6">
+        <div className="grid auto-rows-auto grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-2">
+          <div className="boxes">1</div>
+          <div className="boxes">2</div>
+          <div className="boxes xl:col-span-3">3</div>
+          <div className="boxes">4</div>
+          <div className="boxes">5</div>
+          <div className="boxes">6</div>
+          <div className="boxes">7</div>
+          <div className="boxes">8</div>
+          <div className="boxes">9</div>
+          <div className="boxes">10</div>
+          <div className="boxes">11</div>
+          <div className="boxes">12</div>
+          <div className="boxes">13</div>
+          <div className="boxes">14</div>
+          <div className="boxes">15</div>
+          <div className="boxes xl:order-[19]">16</div>
+          <div className="boxes xl:order-last">17</div>
+          <div className="boxes  md:row-span-2">18</div>
+          <div className="boxes xl:row-span-2">19</div>
+          <div className="boxes xl:row-span-2">20</div>
+        </div>
       </div>
-      <Pagination data={data} table={table} />
-      <button onClick={() => mutate()}>add</button>
-      <div>
-        {/* <div className="flex flex-col space-y-2">
-          {allData.map((e, index) => (
-            <RadioButton index={index} value={e} updateVal={updateVal} />
-          ))}
-        </div> */}
-        <SuccessModal
-          openModal={openModal}
-          setOpenModal={setOpenModal}
-          message={`Your order ${Tdata?.data} has been placed successfully.`}
-          isSuccess={isSuccess}
-        />
-      </div>
-    </div>
+    
   );
 }
 
