@@ -24,22 +24,23 @@ function App() {
 
   //http://103.87.172.95:8094/api/user/getUserList?created_by=1
 
-  const { data: designationList } = useQuery({
-    queryKey: ["designationList"],
-    queryFn: async () => {
-      const { data } = await axios.get(
-        "http://localhost:8094/api/mastertable/DesignationList"
-      );
-      return data.result;
-    },
-  });
+  // const { data: designationList } = useQuery({
+  //   queryKey: ["designationList"],
+  //   queryFn: async () => {
+  //     const { data } = await axios.get(
+  //       "http://localhost:8094/api/mastertable/DesignationList"
+  //     );
+  //     return data.result;
+  //   },
+  // });
 
   const { data: getreq } = useQuery({
     queryKey: ["getreq"],
     queryFn: async () => {
-      const { data } = await axios.get("http://localhost:4000");
+      const { data } = await axios.get("http://localhost:3000/count");
       return data;
     },
+    refetchInterval: 1000
   });
 
   const {
@@ -48,7 +49,7 @@ function App() {
     isSuccess,
   } = useMutation({
     mutationFn: () => {
-      return axios.post("http://localhost:4000",{});
+      return axios.post("http://localhost:3000",{});
     },
     onSuccess: (e) => {
       setOpenModal(true);
@@ -57,32 +58,37 @@ function App() {
   });
 
   const ListOptions = [5, 10, 15, "all"];
-  const [items, setItems] = useState(ListOptions[0]);
+  const [items, setItems] = useState(100);
 
-  const data = useMemo(() => designationList ?? [], [designationList]);
+  const data = useMemo(() => getreq ?? [], [getreq]);
   const list = [
     {
       header: "Sl no",
-      accessorKey: "designationId",
-      className: "font-bold text-black text-center cursor-pointer",
-      cell: ({ row }) => row.index + 1,
+      accessorKey: "value",
+      footer: (props) => {
+        const arr = props.table.getFilteredRowModel().rows.map(e=>e.original.value);
+        const total = arr.reduce((sum, row) => sum + row, 0);
+        return <b>Total: {total}</b>;
+      },
+      // className: "font-bold text-black text-center cursor-pointer",
+      // cell: ({ row }) => row.index + 1,
       // sortingFn: "id",
     },
-    {
-      header: "Tier",
-      accessorKey: "designationLevel",
-      headClass: "cursor-pointer",
-    },
-    {
-      header: "Designation",
-      accessorKey: "designation",
-      headClass: "cursor-pointer",
-    },
-    {
-      header: "User Type",
-      accessorKey: "userType",
-      headClass: "cursor-pointer",
-    },
+    // {
+    //   header: "Tier",
+    //   accessorKey: "designationLevel",
+    //   headClass: "cursor-pointer",
+    // },
+    // {
+    //   header: "Designation",
+    //   accessorKey: "designation",
+    //   headClass: "cursor-pointer",
+    // },
+    // {
+    //   header: "User Type",
+    //   accessorKey: "userType",
+    //   headClass: "cursor-pointer",
+    // },
   ];
 
   const [sorting, setSorting] = useState([]);
@@ -113,25 +119,25 @@ function App() {
     else table.setPageSize(parseInt(items));
   }, [items]);
 
-  function rowToArray() {
-    let array = [];
-    table.getFilteredRowModel().rows.forEach((row) => {
-      const cells = row.getVisibleCells();
-      const values = cells.map((cell) => cell.getValue());
-      array.push(values);
-    });
+  // function rowToArray() {
+  //   let array = [];
+  //   table.getFilteredRowModel().rows.forEach((row) => {
+  //     const cells = row.getVisibleCells();
+  //     const values = cells.map((cell) => cell.getValue());
+  //     array.push(values);
+  //   });
 
-    return array;
-  }
+  //   return array;
+  // }
 
-  const [allData, setAllData] = useState([]);
+  // const [allData, setAllData] = useState([]);
 
-  function updateVal(val, index) {
-    const new_array = [...allData];
-    new_array[index] = val;
+  // function updateVal(val, index) {
+  //   const new_array = [...allData];
+  //   new_array[index] = val;
 
-    setAllData(new_array);
-  }
+  //   setAllData(new_array);
+  // }
 
   return (
     // <div className="flex flex-col items-center justify-center">
@@ -169,64 +175,79 @@ function App() {
     //       CSV
     //     </button>
     //   </div>
-    //   <div className="overflow-x-auto overflow-y-hidden h-fit w-fit">
-    //     <Table className="mt-4 drop-shadow-none" ref={tableRef} id="hello">
-    //       {table.getHeaderGroups().map((headerGroup) => (
-    //         <Table.Head key={headerGroup.id}>
-    //           {headerGroup.headers.map((header) => (
-    //             <Table.HeadCell
-    //               key={header.id}
-    //               className={classNames(
-    //                 header.column.columnDef.headClass,
-    //                 "hover:bg-zinc-200/70 transition-all"
-    //               )}
-    //               onClick={header.column.getToggleSortingHandler()}
-    //             >
-    //               {header.isPlaceholder ? null : (
-    //                 <div
-    //                   className={classNames(
-    //                     "flex items-center justify-between space-x-2",
-    //                     header.column.columnDef.header == "Movie" &&
-    //                       "min-w-[325px]"
-    //                   )}
-    //                 >
-    //                   <span>
-    //                     {flexRender(
-    //                       header.column.columnDef.header,
-    //                       header.getContext()
-    //                     )}
-    //                   </span>
-    //                   <SortIcon sort={header.column.getIsSorted()} />
-    //                 </div>
-    //               )}
-    //             </Table.HeadCell>
-    //           ))}
-    //           <Table.HeadCell>Status</Table.HeadCell>
-    //           <Table.HeadCell>Action</Table.HeadCell>
-    //         </Table.Head>
-    //       ))}
+    <>
+      <div className="overflow-x-auto overflow-y-hidden h-fit w-fit">
+        <Table className="mt-4 drop-shadow-none" ref={tableRef} id="hello">
+          {table.getHeaderGroups().map((headerGroup) => (
+            <Table.Head key={headerGroup.id}>
+              {headerGroup.headers.map((header) => (
+                <Table.HeadCell
+                  key={header.id}
+                  className={classNames(
+                    header.column.columnDef.headClass,
+                    "hover:bg-zinc-200/70 transition-all"
+                  )}
+                  onClick={header.column.getToggleSortingHandler()}
+                >
+                  {header.isPlaceholder ? null : (
+                    <div
+                      className={classNames(
+                        "flex items-center justify-between space-x-2",
+                        header.column.columnDef.header == "Movie" &&
+                          "min-w-[325px]"
+                      )}
+                    >
+                      <span>
+                        {flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                      </span>
+                      <SortIcon sort={header.column.getIsSorted()} />
+                    </div>
+                  )}
+                </Table.HeadCell>
+              ))}
+              {/* <Table.HeadCell>Status</Table.HeadCell>
+              <Table.HeadCell>Action</Table.HeadCell> */}
+            </Table.Head>
+          ))}
 
-    //       <Table.Body>
-    //         {table.getRowModel().rows.map((row) => (
-    //           <Table.Row key={row.id}>
-    //             {row.getVisibleCells().map((cell) => (
-    //               <Table.Cell
-    //                 key={cell.id}
-    //                 className={cell.column.columnDef.className}
-    //               >
-    //                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
-    //               </Table.Cell>
-    //             ))}
-    //             <Table.Cell>Status</Table.Cell>
-    //             <Table.Cell>Action</Table.Cell>
-    //           </Table.Row>
-    //         ))}
-    //       </Table.Body>
-    //     </Table>
-    //   </div>
-    //   <Pagination data={data} table={table} />
-    //   <button onClick={() => mutate()}>add</button>
-      <div className="m-6">
+          <Table.Body className="divide-y">
+            {table.getRowModel().rows.map((row) => (
+              <Table.Row key={row.id}>
+                {row.getVisibleCells().map((cell) => (
+                  <Table.Cell key={cell.id} className={"py-1 text-end"}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </Table.Cell>
+                ))}
+                {/* <Table.Cell>Status</Table.Cell>
+                <Table.Cell>Action</Table.Cell> */}
+              </Table.Row>
+            ))}
+          </Table.Body>
+          <tfoot>
+            {table.getFooterGroups().map((footerGroup) => (
+              <tr key={footerGroup.id}>
+                {footerGroup.headers.map((header) => (
+                  <td
+                    key={header.id}
+                    className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    {flexRender(
+                      header.column.columnDef.footer,
+                      header.getContext()
+                    )}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tfoot>
+        </Table>
+      </div>
+      {/* <Pagination data={data} table={table} /> */}
+      {/* <button onClick={() => mutate()}>add</button> */}
+      {/* <div className="m-6">
         <div className="grid auto-rows-auto grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-2">
           <div className="boxes">1</div>
           <div className="boxes">2</div>
@@ -249,8 +270,8 @@ function App() {
           <div className="boxes xl:row-span-2">19</div>
           <div className="boxes xl:row-span-2">20</div>
         </div>
-      </div>
-    
+      </div> */}
+    </>
   );
 }
 
