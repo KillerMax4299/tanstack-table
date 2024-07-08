@@ -7,6 +7,12 @@ import axios from "axios";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import classNames from "classnames";
 import { exportToExcel, exportToCSV } from "./exportExcel";
+import MyDocument from "./Pdf";
+import { pdfjs } from "react-pdf";
+import "react-pdf/dist/esm/Page/AnnotationLayer.css";
+import "react-pdf/dist/esm/Page/TextLayer.css";
+
+// import { usePDF } from "@react-pdf/renderer";
 
 import {
   flexRender,
@@ -18,9 +24,18 @@ import {
 } from "@tanstack/react-table";
 import SuccessModal from "./SuccessModal";
 
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  "pdfjs-dist/build/pdf.worker.min.mjs",
+  import.meta.url
+).toString();
+
+// pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+
+
 function App() {
   const tableRef = useRef(null);
   const [openModal, setOpenModal] = useState(false);
+  // const [instance, update] = usePDF({ document:MyDocument });
 
   //http://103.87.172.95:8094/api/user/getUserList?created_by=1
 
@@ -36,11 +51,11 @@ function App() {
 
   const { data: getreq } = useQuery({
     queryKey: ["getreq"],
-    queryFn: async () => {
-      const { data } = await axios.get("http://localhost:3000/count");
-      return data;
-    },
-    refetchInterval: 1000
+    // queryFn: async () => {
+    //   const { data } = await axios.get("http://localhost:3000/count");
+    //   return data;
+    // },
+    // refetchInterval: 1000,
   });
 
   const {
@@ -49,7 +64,7 @@ function App() {
     isSuccess,
   } = useMutation({
     mutationFn: () => {
-      return axios.post("http://localhost:3000",{});
+      return axios.post("http://localhost:3000", {});
     },
     onSuccess: (e) => {
       setOpenModal(true);
@@ -66,7 +81,9 @@ function App() {
       header: "Sl no",
       accessorKey: "value",
       footer: (props) => {
-        const arr = props.table.getFilteredRowModel().rows.map(e=>e.original.value);
+        const arr = props.table
+          .getFilteredRowModel()
+          .rows.map((e) => e.original.value);
         const total = arr.reduce((sum, row) => sum + row, 0);
         return <b>Total: {total}</b>;
       },
@@ -176,8 +193,9 @@ function App() {
     //     </button>
     //   </div>
     <>
-      <div className="overflow-x-auto overflow-y-hidden h-fit w-fit">
-        <Table className="mt-4 drop-shadow-none" ref={tableRef} id="hello">
+      {/* <div className="overflow-x-auto flex overflow-y-hidden h-fit w-fit"> */}
+      <div className="flex justify-center">
+        {/* <Table className="mt-4 drop-shadow-none" ref={tableRef} id="hello">
           {table.getHeaderGroups().map((headerGroup) => (
             <Table.Head key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
@@ -208,8 +226,6 @@ function App() {
                   )}
                 </Table.HeadCell>
               ))}
-              {/* <Table.HeadCell>Status</Table.HeadCell>
-              <Table.HeadCell>Action</Table.HeadCell> */}
             </Table.Head>
           ))}
 
@@ -221,8 +237,6 @@ function App() {
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </Table.Cell>
                 ))}
-                {/* <Table.Cell>Status</Table.Cell>
-                <Table.Cell>Action</Table.Cell> */}
               </Table.Row>
             ))}
           </Table.Body>
@@ -243,7 +257,8 @@ function App() {
               </tr>
             ))}
           </tfoot>
-        </Table>
+        </Table> */}
+        <MyDocument />
       </div>
       {/* <Pagination data={data} table={table} /> */}
       {/* <button onClick={() => mutate()}>add</button> */}
