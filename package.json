@@ -24,8 +24,10 @@
     "json-server": "^1.0.0-beta.1",
     "pdfjs": "^2.5.3",
     "react": "^18.2.0",
+    "react-datepicker": "^7.3.0",
     "react-dom": "^18.2.0",
     "react-pdf": "^9.1.0",
+    "react-router-dom": "^6.24.1",
     "vite-plugin-static-copy": "^1.0.6",
     "xlsx": "^0.18.5",
     "zustand": "^4.5.4"
