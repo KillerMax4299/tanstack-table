@@ -2,6 +2,7 @@
 import DynamicInputs from "./DynamicInputs/DynamicInputs";
 import PdfPage from "./PdfPage";
 import ReactHook from "./ReactHook";
+import Tanstack from "./Tanstack";
 
 export const routes = [
   {
@@ -18,6 +19,11 @@ export const routes = [
     name: "ReactHook Form",
     path: "/form",
     Component: ReactHook,
+  },
+  {
+    name: "Tanstack Query ",
+    path: "/api",
+    Component: Tanstack,
   },
   // Add more routes here...
 ];
