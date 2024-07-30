@@ -1,6 +1,7 @@
 
 import DynamicInputs from "./DynamicInputs/DynamicInputs";
 import PdfPage from "./PdfPage";
+import ReactHook from "./ReactHook";
 
 export const routes = [
   {
@@ -11,7 +12,12 @@ export const routes = [
   {
     name: "Dynamic Inputs",
     path: "/input",
-    Component: DynamicInputs
+    Component: DynamicInputs,
+  },
+  {
+    name: "ReactHook Form",
+    path: "/form",
+    Component: ReactHook,
   },
   // Add more routes here...
 ];

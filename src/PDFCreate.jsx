@@ -12,8 +12,9 @@ import { pdf } from "@react-pdf/renderer";
 const styles = StyleSheet.create({
   page: {
     flexDirection: "column",
-    backgroundColor: "#E4E4E4",
+    backgroundColor: "#000",
     padding: 30,
+    color: "#fff",
   },
   section: {
     margin: 10,
