@@ -12,15 +12,15 @@ const Tanstack = () => {
     queryKey: "users",
     queryFn: async () => {
       const response = await axios.get(
-        "https://api.wbpms.in/api/EVNT_MGMNT/DesigLevel",
-        
+        "http://localhost:4000"
+
         // { headers: { deadlock: "Dev!l$k!tchen" } }
       );
       return response.data;
     },
   });
 
-  return <></>;
+  return <>{data}</>;
 };
 
 export default Tanstack;

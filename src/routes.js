@@ -3,6 +3,7 @@ import DynamicInputs from "./DynamicInputs/DynamicInputs";
 import PdfPage from "./PdfPage";
 import ReactHook from "./ReactHook";
 import Tanstack from "./Tanstack";
+import Salting from "./Salting";
 
 export const routes = [
   {
@@ -24,6 +25,11 @@ export const routes = [
     name: "Tanstack Query ",
     path: "/api",
     Component: Tanstack,
+  },
+  {
+    name: "Salting and Encryption ",
+    path: "/salt",
+    Component: Salting,
   },
   // Add more routes here...
 ];

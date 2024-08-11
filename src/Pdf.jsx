@@ -38,8 +38,8 @@ function Sample(instance) {
           // key={`page_${index + 1}`}
           pageNumber={1}
           // width={containerWidth ? Math.min(containerWidth, maxWidth) : maxWidth}
-          loading={<div className="w-[474px] h-[670px] bg-white"></div>}
-          height={670}
+          loading={<div className="bg-white"></div>}
+          height={1000}
         />
         
       </Document>
