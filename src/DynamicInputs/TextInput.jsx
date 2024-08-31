@@ -63,10 +63,10 @@ export const TextInput = ({
           type={type}
           name={name}
           value={name ? (dynamic ? value[index][name] : value[name]) : value}
-          class={classNames(
-            "border-2 block w-full p-2.5 outline-none rounded-lg border-gray-400",
+          className={classNames(
+            "border-2 block w-full p-2.5 outline-none rounded-lg border-gray-400 ring-1 ring-transparent focus:ring-blue-600 focus:border-blue-600",
             (!required || isFilled) &&
-              "text-gray-900  focus:ring-blue-500 focus:border-blue-500 block ",
+              "text-gray-900 focus:ring-blue-500 focus:border-blue-500 block ",
             !isFilled &&
               required &&
               touched &&

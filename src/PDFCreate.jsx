@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   },
   tableCol: {
     width: "14.28%",
-    height:"30px",
+    height: "30px",
     borderStyle: "solid",
     borderWidth: 1,
     borderLeftWidth: 0,
@@ -163,7 +163,7 @@ const MyDocument = ({ title, subtitle, content }) => {
             style={{
               fontSize: 15,
               textAlign: "right",
-              marginBottom: 4,
+              marginBottom: 40,
               fontFamily: "Times-New-Roman-Bold",
             }}
           >
@@ -184,7 +184,7 @@ const MyDocument = ({ title, subtitle, content }) => {
             style={{
               fontSize: 13,
               textAlign: "center",
-              marginBottom: 20,
+              marginBottom: 40,
               textDecoration: "underline",
               fontFamily: "Times-New-Roman",
             }}
@@ -374,7 +374,16 @@ const MyDocument = ({ title, subtitle, content }) => {
             >
               Date:-
             </Text>
-            <div style={{ width: "auto", border:"1px solid black", borderBottom:0, borderLeft:0,borderRight:0 }}>
+            <div
+              style={{
+                width: "auto",
+                border: "1px solid black",
+                borderBottom: 0,
+                borderLeft: 0,
+                borderRight: 0,
+                // textDecorationLine:"overline"
+              }}
+            >
               <Text
                 style={{
                   fontSize: 13,

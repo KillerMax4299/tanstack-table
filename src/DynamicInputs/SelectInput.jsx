@@ -62,7 +62,7 @@ export const SelectInput = ({
         <select
           name={name}
           // value={name ? (dynamic ? value[index][name] : value[name]) : value}
-          class={classNames(
+          className={classNames(
             "border-2 block w-full p-2.5 outline-none rounded-lg border-gray-400",
             (!required || isFilled) &&
               "text-gray-900  focus:ring-blue-500 focus:border-blue-500 block ",

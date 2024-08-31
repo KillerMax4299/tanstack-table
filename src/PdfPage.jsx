@@ -11,17 +11,17 @@ import { pdfjs } from "react-pdf";
 import Sample from "./Pdf";
 import MyDocument from "./PDFCreate";
 import { Route, Routes, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const PdfPage = () => {
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [content, setContent] = useState("");
   const [pdfUrl, setPdfUrl] = useState(null);
+  const navigate = useNavigate();
 
   const generatePDF = async () => {
-    const blob = await pdf(
-      <MyDocument />
-    ).toBlob();
+    const blob = await pdf(<MyDocument />).toBlob();
     const url = URL.createObjectURL(blob);
     setPdfUrl(url);
   };
@@ -48,12 +48,20 @@ const PdfPage = () => {
           onChange={(e) => setContent(e.target.value)}
           className="w-full p-2 border border-gray-300 rounded h-32"
         /> */}
-        <button
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-          onClick={generatePDF}
-        >
-          Generate PDF
-        </button>
+        <div className="flex space-x-4">
+          <button
+            className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+            onClick={() => navigate(-1)}
+          >
+            back
+          </button>
+          <button
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            onClick={generatePDF}
+          >
+            Generate PDF
+          </button>
+        </div>
         {pdfUrl && <Sample url={pdfUrl} />}
       </div>
     </>

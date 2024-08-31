@@ -1,5 +1,6 @@
 import React, { useCallback, useState,useEffect } from "react";
 // import { useResizeObserver } from "@wojtekmaj/react-hooks";
+import { useNavigate } from "react-router-dom";
 import { Document, Page } from "react-pdf";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import "react-pdf/dist/Page/AnnotationLayer.css";
@@ -12,6 +13,7 @@ function Sample(instance) {
   const [numPages, setNumPages] = useState();
   const [page, setPage] = useState(1);
   const [containerWidth, setContainerWidth] = useState();
+  const navigate = useNavigate();
 
   // useResizeObserver(containerRef, resizeObserverOptions, onResize);
 
