@@ -34,6 +34,7 @@
     "react-jwt": "^1.2.2",
     "react-pdf": "^9.1.0",
     "react-router-dom": "^6.24.1",
+    "react-simple-wysiwyg": "^3.1.2",
     "vite-plugin-static-copy": "^1.0.6",
     "xlsx": "^0.18.5",
     "zustand": "^4.5.4"

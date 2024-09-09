@@ -4,6 +4,8 @@ import PdfPage from "./PdfPage";
 import ReactHook from "./ReactHook";
 import Tanstack from "./Tanstack";
 import Salting from "./Salting";
+import FramerMotion from "./FramerMotion";
+import CustomEditor from "./Richtexteditor";
 
 export const routes = [
   {
@@ -30,6 +32,16 @@ export const routes = [
     name: "Salting and Encryption ",
     path: "/salt",
     Component: Salting,
+  },
+  {
+    name: "Framer motion",
+    path: "/framer",
+    Component: FramerMotion,
+  },
+  {
+    name: "Rict Text Editor",
+    path: "/editor",
+    Component: CustomEditor,
   },
   // Add more routes here...
 ];

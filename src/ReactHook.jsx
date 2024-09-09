@@ -2,18 +2,18 @@ import React from "react";
 import { useForm } from "react-hook-form";
 
 const ReactHook = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    mode: "onBlur",
-  });
+    const {
+      register,
+      handleSubmit,
+      formState: { errors },
+    } = useForm({
+      mode: "onBlur",
+    });
 
-  const onSubmit = (data) => {
-    console.log(data);
-    // Handle form submission here
-  };
+    const onSubmit = (data) => {
+      console.log(data);
+      // Handle form submission here
+    };
 
   const inputStyle =
     "w-full p-2 border rounded-md focus:outline-none focus:ring-2";
@@ -81,13 +81,7 @@ const ReactHook = () => {
               ? `${errorRingStyle} ${errorBorderStyle}`
               : defaultRingStyle
           }`}
-          {...register("phone", {
-            required: "This field is required",
-            pattern: {
-              value: /^\d{10}$/,
-              message: "Phone must be 10 digits",
-            },
-          })}
+          {...register("phone", )}
         />
         {errors.phone && (
           <p className={errorMessageStyle}>{errors.phone.message}</p>
