@@ -18,13 +18,13 @@ const Home = () => {
 
   // ri:moon-fill
   return (
-    <div className="p-36 py-12 dark:bg-zinc-900 h-screen transition-colors">
+    <div className="p-4 md:p-36 py-8 md:py-12 dark:bg-zinc-900 h-screen transition-colors">
       <div className="flex justify-between">
-        <h1 className="capitalize font-black text-6xl mb-6 dark:text-white transition-colors">
+        <h1 className="capitalize font-black text-3xl xl:text-6xl mb-6 dark:text-white transition-colors">
           My testing ground
         </h1>
         <button className="text-2xl" onClick={changeTheme}>
-          <AnimatePresence mode="wait">
+          <>
             {dark ? (
               <motion.div
                 key={"moon"}
@@ -34,8 +34,8 @@ const Home = () => {
                   duration: 0.15,
                   ease: cubicBezier(0.4, 0, 0.2, 1),
                 }}
-                exit={{ rotate: 90, scale: 0 }}
-                className="absolute flex items-center justify-center"
+                exit={{ rotate: -90, scale: 0 }}
+                className="absolute min-[600px]:right-12 right-6 md:right-32 flex items-center justify-center"
                 // className="rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
               >
                 <Icon icon={"ph:moon-light"} className="text-zinc-200" />
@@ -49,13 +49,18 @@ const Home = () => {
                   duration: 0.15,
                   ease: cubicBezier(0.4, 0, 0.2, 1),
                 }}
-                exit={{ rotate: 90, scale: 0 }}
-                className="absolute flex items-center justify-center"
+                exit={{ rotate: -90, scale: 0 }}
+                className="absolute min-[600px]:right-12 right-6 md:right-32 flex items-center justify-center"
               >
                 <Icon icon={"radix-icons:sun"} className="text-zinc-700" />
               </motion.div>
             )}
-          </AnimatePresence>
+          {/* {dark ? (
+            <Icon icon={"ph:moon-light"} className="text-zinc-200" />
+          ) : (
+            <Icon icon={"radix-icons:sun"} className="text-zinc-700" />
+          )} */}
+          </>
         </button>
       </div>
       <ul className="list-disc list-inside">
