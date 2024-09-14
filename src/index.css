@@ -4,7 +4,10 @@
 
 @layer components {
   .boxes {
-    @apply min-h-24 text-3xl bg-neutral-900 text-zinc-100 font-extrabold tracking-tighter min-w-[50%] md:min-w-48 lg:min-w-60 border border-black rounded-md flex justify-center items-center;
+    @apply size-2 mx-1 bg-black rounded-full ;
+  }
+  .dark\:boxes {
+    @apply size-2 mx-1 bg-white rounded-full ;
   }
 }
 

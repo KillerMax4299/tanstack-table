@@ -7,4 +7,4 @@ export default {
     extend: {},
   },
   plugins: [flowbite.plugin()],
-};
+  darkMode: 'selector'};

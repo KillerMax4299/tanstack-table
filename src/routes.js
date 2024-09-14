@@ -6,6 +6,7 @@ import Tanstack from "./Tanstack";
 import Salting from "./Salting";
 import FramerMotion from "./FramerMotion";
 import CustomEditor from "./Richtexteditor";
+import DataFetchingComponent from "./UseCallback";
 
 export const routes = [
   {
@@ -42,6 +43,11 @@ export const routes = [
     name: "Rict Text Editor",
     path: "/editor",
     Component: CustomEditor,
+  },
+  {
+    name: "useCallback()",
+    path: "/use_callback",
+    Component: DataFetchingComponent,
   },
   // Add more routes here...
 ];

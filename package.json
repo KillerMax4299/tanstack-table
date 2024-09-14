@@ -12,6 +12,13 @@
   "dependencies": {
     "@hookform/devtools": "^4.3.1",
     "@iconify/react": "^4.1.1",
+    "@lexical/code": "^0.17.1",
+    "@lexical/link": "^0.17.1",
+    "@lexical/list": "^0.17.1",
+    "@lexical/react": "^0.17.1",
+    "@lexical/rich-text": "^0.17.1",
+    "@lexical/selection": "^0.17.1",
+    "@lexical/utils": "^0.17.1",
     "@react-pdf/renderer": "^3.4.4",
     "@tanstack/react-query": "^5.29.2",
     "@tanstack/react-query-devtools": "^5.29.2",
@@ -26,6 +33,7 @@
     "framer-motion": "^11.3.31",
     "json-server": "^1.0.0-beta.1",
     "jsonwebtoken": "^9.0.2",
+    "lexical": "^0.17.1",
     "pdfjs": "^2.5.3",
     "react": "^18.2.0",
     "react-datepicker": "^7.3.0",
@@ -40,6 +48,7 @@
     "zustand": "^4.5.4"
   },
   "devDependencies": {
+    "@iconify-icon/react": "^2.1.0",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@vitejs/plugin-react-swc": "^3.5.0",
