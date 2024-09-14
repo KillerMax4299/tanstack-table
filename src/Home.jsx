@@ -24,7 +24,7 @@ const Home = () => {
           My testing ground
         </h1>
         <button className="text-2xl" onClick={changeTheme}>
-          <AnimatePresence>
+          <AnimatePresence mode="wait">
             {dark ? (
               <motion.div
                 key={"moon"}
