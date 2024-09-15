@@ -6,6 +6,8 @@ import { Dropdown, SelectItem } from "./Dropdown";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { routes } from "./routes";
 const Home = () => {
+
+  const [value, setValue] = useState();
   const options = [
     "first",
     "second",
@@ -97,7 +99,7 @@ const Home = () => {
           </li>
         ))}
       </ul>
-      <Dropdown placeholder={"Select Type"}>
+      <Dropdown placeholder={"Select Type"} onValueChange={(e)=>setValue(e)}>
         {options.map((e) => (
           <SelectItem value={e}>{e}</SelectItem>
         ))}

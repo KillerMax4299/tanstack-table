@@ -1,20 +1,21 @@
-import { useState, useRef, useLayoutEffect, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import classNames from "classnames";
 import { AnimatePresence, motion, cubicBezier } from "framer-motion";
 
-export const Dropdown = ({ placeholder, children, onChange, value }) => {
-  const dropdownHeight = children.length * 32 + 10;
-
+export const Dropdown = ({ placeholder, children, onValueChange, onBlur }) => {
+  const dropdownHeight = React.Children.count(children) * 32 + 10;
+  const [touched, setTouched] = useState(false);
   const [open, setOpen] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState("bottom");
   const dropdownRef = useRef(null);
   const buttonRef = useRef(null);
   const { height } = useViewportSize();
-  const [innerValue, setInnerValue] = useState();
+  const [innerValue, setInnerValue] = useState("");
 
   function onClick() {
     setOpen(!open);
+    setTouched(true)
   }
 
   useEffect(() => {
@@ -28,7 +29,21 @@ export const Dropdown = ({ placeholder, children, onChange, value }) => {
         setDropdownPosition("bottom");
       }
     }
-  }, [height, open]);
+  }, [height]);
+
+  useEffect(() => {
+    if (!open && touched) {
+      //TODO onBlur() function here
+    }
+  }, [open,touched])
+
+  const handleSelectItem = (itemValue) => {
+    setInnerValue(itemValue);
+    setOpen(false);
+    if (onValueChange) {
+      onValueChange(itemValue);
+    }
+  };
 
   return (
     <div className="py-4">
@@ -41,7 +56,7 @@ export const Dropdown = ({ placeholder, children, onChange, value }) => {
           onClick={onClick}
           className="flex items-center w-48 justify-between border dark:font-light border-zinc-300 shadow-sm dark:border-zinc-700 px-3 py-2 text-sm rounded-md"
         >
-          <span>{placeholder}</span>
+          <span>{innerValue.length == 0 ? placeholder : innerValue}</span>
           <Icon
             icon={"radix-icons:caret-sort"}
             className="text-zinc-700 dark:text-zinc-500"
@@ -75,9 +90,13 @@ export const Dropdown = ({ placeholder, children, onChange, value }) => {
                   ease: cubicBezier(0.4, 0, 0.2, 1),
                   duration: 0.1,
                 }}
-                className="dark:font-light text-sm border border-zinc-300 min-w-48 dark:border-zinc-700 p-1 rounded-md shadow bg-white dark:bg-zinc-900"
+                className="dark:font-light text-sm border border-zinc-300 min-w-48 dark:border-zinc-700 p-1 rounded-md shadow-md bg-white dark:bg-zinc-900"
               >
-                <ol>{children}</ol>
+                <ol>
+                  {React.Children.map(children, (child) =>
+                    React.cloneElement(child, { onSelect: handleSelectItem })
+                  )}
+                </ol>
               </motion.div>
             </motion.div>
           )}
@@ -93,14 +112,19 @@ export const Dropdown = ({ placeholder, children, onChange, value }) => {
   );
 };
 
-
-export function SelectItem({ value, children }) {
+export function SelectItem({ value, children, onSelect }) {
+  const handleClick = () => {
+    if (onSelect) {
+      onSelect(value);
+    }
+  };
   return (
     <>
       <li
-        value={value}
+        onClick={handleClick}
+        value={value.toString()}
         className="text-sm pl-4 py-[6px] hover:bg-zinc-400/10 hover:dark:bg-zinc-400/10 rounded-md"
-        >
+      >
         {children}
       </li>
     </>
