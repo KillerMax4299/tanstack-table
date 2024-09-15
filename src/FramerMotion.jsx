@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, cubicBezier } from "framer-motion";
 import classNames from "classnames";
 
 const FramerMotion = () => {
@@ -14,22 +14,25 @@ const FramerMotion = () => {
           {visible ? "on" : "off"}
         </button>
         <AnimatePresence>
-          {visible && (<motion.div
-            className={classNames(
-              "mt-10 h-screen w-full bg-white border-zinc-300 border shadow-md rounded-md flex justify-center items-center text-4xl text-black font-bold"
-            )}
-            initial={{ opacity: 0, scale: 0.8, y: -500 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8, y: -500 }}
-            dragConstraints={{ top: 0, bottom: 100 }}
-            drag="y"
-            dragSnapToOrigin={true}
-            dragElastic={{ top: 0, bottom: 0 }}
-            
-            // dragTransition={{ duration:1000 }}
+          {visible && (
+            <motion.div
+              className={classNames(
+                "absolute mt-10 w-full bg-white border-zinc-300 border shadow-md rounded-md flex justify-center items-center text-4xl text-black font-bold"
+              )}
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "100vh" }}
+              exit={{ opacity: 0, height: 0 }}
+              dragConstraints={{ top: 0, bottom: 100 }}
+              drag="y"
+              dragSnapToOrigin={true}
+              dragElastic={{ top: 0, bottom: 0 }}
+              // dragTransition={{ duration:1000 }}
 
-            transition={{ ease: "easeInOut", duration: 0.2 }}
-          >ljandsjlfnklan</motion.div>)}
+              transition={{ ease: cubicBezier(0.4, 0, 0.2, 1), duration: 0.2 }}
+            >
+              ljandsjlfnklan
+            </motion.div>
+          )}
         </AnimatePresence>
       </div>
     </>

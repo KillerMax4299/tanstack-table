@@ -2,9 +2,20 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import classNames from "classnames";
 import { AnimatePresence, motion, cubicBezier } from "framer-motion";
+import { Dropdown, SelectItem } from "./Dropdown";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { routes } from "./routes";
 const Home = () => {
+  const options = [
+    "first",
+    "second",
+    "third",
+    "fourth",
+    "fifth",
+    "sixth",
+    "first",
+    "second",
+  ];
   const [dark, setDark] = useState(true);
 
   function changeTheme() {
@@ -18,9 +29,9 @@ const Home = () => {
 
   // ri:moon-fill
   return (
-    <div className="p-4 md:p-36 py-8 md:py-12 dark:bg-zinc-900 h-screen transition-colors">
+    <div className="p-4 md:p-36 py-8 md:py-12 dark:bg-zinc-900 h-screen transition-colors ">
       <div className="flex justify-between">
-        <h1 className="capitalize font-black text-3xl xl:text-6xl mb-6 dark:text-white transition-colors">
+        <h1 className="capitalize font-black text-3xl xl:text-6xl mb-6 transition-colors dark:text-white">
           My testing ground
         </h1>
         <button className="text-2xl" onClick={changeTheme}>
@@ -55,7 +66,7 @@ const Home = () => {
                 <Icon icon={"radix-icons:sun"} className="text-zinc-700" />
               </motion.div>
             )}
-          {/* {dark ? (
+            {/* {dark ? (
             <Icon icon={"ph:moon-light"} className="text-zinc-200" />
           ) : (
             <Icon icon={"radix-icons:sun"} className="text-zinc-700" />
@@ -86,6 +97,11 @@ const Home = () => {
           </li>
         ))}
       </ul>
+      <Dropdown placeholder={"Select Type"}>
+        {options.map((e) => (
+          <SelectItem value={e}>{e}</SelectItem>
+        ))}
+      </Dropdown>
     </div>
   );
 };
