@@ -28,6 +28,7 @@ import {
 import { useCallback, useEffect, useRef, useState } from "react";
 import { TreeView } from "@lexical/react/LexicalTreeView";
 import { Icon } from "@iconify-icon/react";
+import classNames from "classnames";
 
 const ExampleTheme = {
   code: "editor-code",
@@ -45,7 +46,7 @@ const ExampleTheme = {
     nested: {
       listitem: "editor-nested-listitem",
     },
-    ol: "editor-list-ol",
+    ol: "editor-list-ol text-red-400",
     ul: "editor-list-ul",
   },
   ltr: "ltr",
@@ -103,7 +104,7 @@ function ToolbarPlugin() {
       setIsUnderline(selection.hasFormat("underline"));
       setIsStrikethrough(selection.hasFormat("strikethrough"));
     }
-  }, []);
+  }, [editor]);
 
   useEffect(() => {
     return mergeRegister(
@@ -141,12 +142,14 @@ function ToolbarPlugin() {
 
   return (
     <div className="toolbar text-black text-xl " ref={toolbarRef}>
-      
       <button
         onClick={() => {
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
         }}
-        className={"size-8 flex justify-center items-center rounded-lg " + (isBold ? "bg-zinc-200" : "")}
+        className={classNames(
+          "size-8 flex justify-center items-center rounded-lg",
+          isBold ? "bg-zinc-200" : ""
+        )}
         aria-label="Format Bold"
       >
         <Icon icon={"bx:bold"} />
@@ -155,7 +158,10 @@ function ToolbarPlugin() {
         onClick={() => {
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic");
         }}
-        className={"toolbar-item spaced " + (isItalic ? "active" : "")}
+        className={classNames(
+          "size-8 flex justify-center items-center rounded-lg",
+          isItalic ? "bg-zinc-200" : ""
+        )}
         aria-label="Format Italics"
       >
         <Icon icon={"ph:text-italic"} />
@@ -164,7 +170,10 @@ function ToolbarPlugin() {
         onClick={() => {
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline");
         }}
-        className={"toolbar-item spaced " + (isUnderline ? "active" : "")}
+        className={classNames(
+          "size-8 flex justify-center items-center rounded-lg",
+          isUnderline ? "bg-zinc-200" : ""
+        )}
         aria-label="Format Underline"
       >
         <Icon icon={"bx:underline"} />
@@ -173,12 +182,35 @@ function ToolbarPlugin() {
         onClick={() => {
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough");
         }}
-        className={"toolbar-item spaced " + (isStrikethrough ? "active" : "")}
+        className={classNames(
+          "size-8 flex justify-center items-center rounded-lg",
+          isStrikethrough ? "bg-zinc-200" : ""
+        )}
         aria-label="Format Strikethrough"
       >
         <Icon icon={"bx:strikethrough"} />
       </button>
-      
+      {/* Ordered List Button */}
+      <button
+        onClick={() => {
+          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "number");
+        }}
+        className="toolbar-item spaced"
+        aria-label="Ordered List"
+      >
+        <Icon icon={"mdi:format-list-numbered"} />
+      </button>
+
+      {/* Unordered List Button */}
+      <button
+        onClick={() => {
+          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "bullet");
+        }}
+        className="toolbar-item spaced"
+        aria-label="Unordered List"
+      >
+        <Icon icon={"mdi:format-list-bulleted"} />
+      </button>
     </div>
   );
 }
@@ -201,7 +233,6 @@ function TreeViewPlugin() {
 export default function CustomEditor() {
   return (
     <>
-      
       <LexicalComposer initialConfig={editorConfig}>
         <div className="editor-container">
           <ToolbarPlugin />
